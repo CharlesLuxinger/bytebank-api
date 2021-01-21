@@ -1,5 +1,6 @@
 package com.github.charlesluxinger.bytebank.infra.model;
 
+import com.github.charlesluxinger.bytebank.domain.model.Account;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,10 +11,10 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
 import static org.springframework.data.mongodb.core.mapping.FieldType.OBJECT_ID;
-
 
 /**
  * @author Charles Luxinger
@@ -37,8 +38,27 @@ public class AccountDocument {
     @Field
     private String document;
 
-    @NotBlank
+    @PositiveOrZero
     @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal balance;
 
+    public static AccountDocument of(final Account account) {
+        return AccountDocument
+                .builder()
+                .id(account.getId())
+                .ownerName(account.getOwnerName())
+                .document(account.getDocument())
+                .balance(account.getBalance())
+                .build();
+    }
+
+    public Account toDomain() {
+        return Account
+                .builder()
+                .id(this.id)
+                .ownerName(this.ownerName)
+                .document(this.document)
+                .balance(this.balance)
+                .build();
+    }
 }
