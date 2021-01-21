@@ -24,11 +24,11 @@ public class TransferRequest {
 
     @NotBlank
     @Schema(example = "999.999.999-99")
-    private String documentSource;
+    private String accountSourceId;
 
     @NotBlank
     @Schema(example = "999.999.999-99")
-    private String documentTarget;
+    private String accountTargetId;
 
     @NotNull
     @Positive
@@ -38,8 +38,8 @@ public class TransferRequest {
     public Transfer toDomain() {
         return Transfer
                 .builder()
-                .documentSource(this.documentSource)
-                .documentTarget(this.documentTarget)
+                .accountSourceId(this.accountSourceId)
+                .accountTargetId(this.accountTargetId)
                 .value(this.value)
                 .build();
     }

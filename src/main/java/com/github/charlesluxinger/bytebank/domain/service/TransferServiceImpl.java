@@ -40,7 +40,7 @@ public class TransferServiceImpl implements TransferService {
         }
 
         return repository
-                .findAllByDocument(Set.of(transfer.getDocumentTarget(), transfer.getDocumentSource()))
+                .findAllById(Set.of(transfer.getAccountTargetId(), transfer.getAccountSourceId()))
                 .map(AccountDocument::toDomain)
                 .switchIfEmpty(Mono.error(new NotFoundException("Accounts not founded.")))
                 .collectList()
@@ -61,9 +61,15 @@ public class TransferServiceImpl implements TransferService {
     }
 
     private Account incrementTargetBalance(final List<Account> accounts, final Transfer transfer) {
-        return findAccount(accounts, transfer.getDocumentTarget())
+        return findAccount(accounts, transfer.getAccountTargetId())
                 .map(a -> a.balanceIncrement(transfer.getValue()))
                 .orElseThrow(() -> new NotFoundException("Target Account not founded."));
+    }
+
+    private Account decrementSourceBalance(final List<Account> accounts, final Transfer transfer) {
+        return findAccount(accounts, transfer.getAccountSourceId())
+                .map(a -> a.balanceDecrement(transfer.getValue()))
+                .orElseThrow(() -> new NotFoundException("Source Account not founded."));
     }
 
     private Optional<Account> findAccount(final List<Account> accounts, final String document) {
@@ -71,12 +77,6 @@ public class TransferServiceImpl implements TransferService {
                 .stream()
                 .filter(a -> a.getDocument().equals(document))
                 .findAny();
-    }
-
-    private Account decrementSourceBalance(final List<Account> accounts, final Transfer transfer) {
-        return findAccount(accounts, transfer.getDocumentSource())
-                .map(a -> a.balanceDecrement(transfer.getValue()))
-                .orElseThrow(() -> new NotFoundException("Source Account not founded."));
     }
 
     private Throwable errorMap(final Throwable err) {

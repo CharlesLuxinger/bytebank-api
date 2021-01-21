@@ -21,10 +21,10 @@ import java.math.BigDecimal;
 public class Transfer {
 
     @NotBlank
-    private String documentSource;
+    private String accountSourceId;
 
     @NotBlank
-    private String documentTarget;
+    private String accountTargetId;
 
     @NotNull
     @Positive
