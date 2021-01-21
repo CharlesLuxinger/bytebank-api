@@ -1,6 +1,7 @@
 package com.github.charlesluxinger.bytebank.controller.model.request;
 
 import com.github.charlesluxinger.bytebank.domain.model.Account;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,9 +22,11 @@ import static java.math.BigDecimal.ZERO;
 public class AccountRequest {
 
     @NotBlank
+    @Schema(example = "João Manuel")
     private String ownerName;
 
     @NotBlank
+    @Schema(example = "999.999.999-99")
     private String document;
 
     public Account toDomain() {

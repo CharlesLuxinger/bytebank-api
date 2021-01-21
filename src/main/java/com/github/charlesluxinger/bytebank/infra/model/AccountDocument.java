@@ -27,6 +27,8 @@ import static org.springframework.data.mongodb.core.mapping.FieldType.OBJECT_ID;
 @Document("account")
 public class AccountDocument {
 
+    public static final String BALANCE = "balance";
+
     @MongoId(OBJECT_ID)
     private String id;
 
@@ -39,7 +41,7 @@ public class AccountDocument {
     private String document;
 
     @PositiveOrZero
-    @Field(targetType = FieldType.DECIMAL128)
+    @Field(name = BALANCE, targetType = FieldType.DECIMAL128)
     private BigDecimal balance;
 
     public static AccountDocument of(final Account account) {

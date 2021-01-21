@@ -9,4 +9,4 @@ import org.springframework.stereotype.Repository;
  * @version 1.0.0 20/01/21
  */
 @Repository
-public interface AccountRepository extends ReactiveMongoRepository<AccountDocument, String> {}
+public interface AccountRepository extends AccountRepositoryCustom, ReactiveMongoRepository<AccountDocument, String> {}

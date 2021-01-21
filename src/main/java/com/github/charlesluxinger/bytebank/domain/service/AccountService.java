@@ -3,8 +3,7 @@ package com.github.charlesluxinger.bytebank.domain.service;
 import com.github.charlesluxinger.bytebank.domain.model.Account;
 import reactor.core.publisher.Mono;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 /**
  * @author Charles Luxinger
@@ -12,6 +11,8 @@ import javax.validation.constraints.NotNull;
  */
 public interface AccountService {
 
-    Mono<Account> insertIfNotExists(@Valid @NotNull final Account account);
+    Mono<Account> insertIfNotExists(final Account account);
+
+    Mono<Void> deposit(final String document, final BigDecimal value);
 
 }
