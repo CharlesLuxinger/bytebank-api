@@ -1,6 +1,5 @@
 package com.github.charlesluxinger.bytebank.infra.repository;
 
-import com.github.charlesluxinger.bytebank.domain.model.Transfer;
 import com.github.charlesluxinger.bytebank.infra.model.AccountDocument;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -24,9 +23,9 @@ public class AccountRepositoryCustomImpl implements AccountRepositoryCustom {
     private final ReactiveMongoTemplate template;
 
     @Override
-    public Mono<Void> deposit(final String document, final BigDecimal value) {
+    public Mono<Void> deposit(final String id, final BigDecimal value) {
         return template
-                .updateFirst(query(where(ID).is(document)), update(ID, document).inc(BALANCE, value), AccountDocument.class)
+                .updateFirst(query(where(ID).is(id)), update(ID, id).inc(BALANCE, value), AccountDocument.class)
                 .then();
     }
 

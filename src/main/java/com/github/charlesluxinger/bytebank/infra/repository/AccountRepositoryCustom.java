@@ -10,6 +10,6 @@ import java.math.BigDecimal;
  */
 public interface AccountRepositoryCustom {
 
-    Mono<Void> deposit(final String document, final BigDecimal value);
+    Mono<Void> deposit(final String id, final BigDecimal value);
 
 }

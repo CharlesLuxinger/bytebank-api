@@ -1,14 +1,14 @@
 package com.github.charlesluxinger.bytebank.domain.service;
 
-import com.github.charlesluxinger.bytebank.domain.model.Account;
+import com.github.charlesluxinger.bytebank.domain.model.Transfer;
 import reactor.core.publisher.Mono;
 
 /**
  * @author Charles Luxinger
  * @version 1.0.0 20/01/21
  */
-public interface AccountService {
+public interface TransferService {
 
-    Mono<Account> insertIfNotExists(final Account account);
+    Mono<Void> transfer(final Transfer transfer);
 
 }
