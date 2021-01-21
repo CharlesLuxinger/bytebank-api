@@ -1,0 +1,29 @@
+server:
+  port: 9000
+  compression:
+    enabled: true
+    mime-types: application/json
+  servlet.context-path: /api/v1/
+
+spring:
+  application.name: bytebank-api
+  data.mongodb:
+    uri: ${BYTEBANK_API_DB_URI}
+    database: ${BYTEBANK_API_DB_DATABASE}
+  main.banner-mode: off
+
+management:
+  health.diskspace.enabled: false
+  endpoint.health.show-details: always
+  endpoints.web:
+    exposure:
+      include: health
+    base-path: /
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    resolve-schema-properties: true
+  swagger-ui.path: /
+
+logging.pattern.console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %magenta([%t]) %m%n"
