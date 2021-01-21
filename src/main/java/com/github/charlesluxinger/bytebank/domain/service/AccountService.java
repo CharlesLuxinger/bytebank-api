@@ -1,6 +1,7 @@
 package com.github.charlesluxinger.bytebank.domain.service;
 
 import com.github.charlesluxinger.bytebank.domain.model.Account;
+import com.github.charlesluxinger.bytebank.domain.model.Transfer;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
@@ -14,5 +15,7 @@ public interface AccountService {
     Mono<Account> insertIfNotExists(final Account account);
 
     Mono<Void> deposit(final String document, final BigDecimal value);
+
+    Mono<Void> transfer(final Transfer transfer);
 
 }

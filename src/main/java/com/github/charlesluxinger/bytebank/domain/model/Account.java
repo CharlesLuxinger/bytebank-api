@@ -1,5 +1,6 @@
 package com.github.charlesluxinger.bytebank.domain.model;
 
+import com.github.charlesluxinger.bytebank.domain.model.exeception.NonPositiveValueException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+
+import static com.github.charlesluxinger.bytebank.utils.NumberUtils.isNegative;
 
 /**
  * @author Charles Luxinger
@@ -30,4 +33,29 @@ public class Account {
     @PositiveOrZero
     private BigDecimal balance;
 
+    public Account balanceDecrement(final BigDecimal value) {
+        var subtracted = this.balance.subtract(value);
+
+        if (isNegative(subtracted)) {
+            throw new NonPositiveValueException(value);
+        }
+
+        return Account
+                .builder()
+                .id(this.id)
+                .ownerName(this.ownerName)
+                .document(this.document)
+                .balance(subtracted)
+                .build();
+    }
+
+    public Account balanceIncrement(final BigDecimal value) {
+        return Account
+                .builder()
+                .id(this.id)
+                .ownerName(this.ownerName)
+                .document(this.document)
+                .balance(this.balance.add(value))
+                .build();
+    }
 }
