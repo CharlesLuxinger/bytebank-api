@@ -10,10 +10,9 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
-import static com.github.charlesluxinger.bytebank.utils.NumberUtils.isLessOrEqualsTwoThousand;
+import static com.github.charlesluxinger.bytebank.utils.NumberUtils.isGreaterThanTwoThousand;
 import static com.github.charlesluxinger.bytebank.utils.NumberUtils.isNegativeOrZero;
 
 /**
@@ -28,12 +27,12 @@ public class DepositServiceImpl implements DepositService {
     private final AccountRepository repository;
 
     @Override
-    public Mono<Void> deposit(@NotBlank final String id, @NotNull @Positive final BigDecimal value) {
+    public Mono<Void> deposit(@NotBlank final String id, @NotNull final BigDecimal value) {
         if (isNegativeOrZero(value)) {
             return Mono.error(new NonPositiveValueException(value));
         }
 
-        if (isLessOrEqualsTwoThousand(value)) {
+        if (isGreaterThanTwoThousand(value)) {
             return Mono.error(new GreaterThanDepositValueException(value));
         }
 

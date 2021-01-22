@@ -18,6 +18,6 @@ import io.swagger.v3.oas.annotations.servers.Server;
                         email = "charlesluxinger@gmail.com",
                         url = "https://github.com/CharlesLuxinger/bytebank-api")
         ),
-        servers = @Server(url = "http://localhost:9000/api/v1", description = "Dev Server")
+        servers = @Server(url = "http://localhost:9000/api/v1", description = "Local Server")
 )
 public class OpenApiConfig {}

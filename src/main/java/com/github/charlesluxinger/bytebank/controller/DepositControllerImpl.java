@@ -6,18 +6,16 @@ import com.github.charlesluxinger.bytebank.domain.service.DepositService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 
 import static com.github.charlesluxinger.bytebank.controller.AccountControllerImpl.ACCOUNT_PATH;
-import static com.github.charlesluxinger.bytebank.controller.model.exception.ApiExceptionResponse.buildBadRequestResponse;
+import static com.github.charlesluxinger.bytebank.utils.ExceptionUtils.errorMap;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -26,7 +24,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  */
 @Validated
 @RestController
-@RequestMapping(path = ACCOUNT_PATH, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
+@RequestMapping(path = ACCOUNT_PATH, consumes = APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class DepositControllerImpl implements DepositController {
 
@@ -34,16 +32,13 @@ public class DepositControllerImpl implements DepositController {
 
     @Override
     @PostMapping(value = "/{id}")
-    public Mono<ResponseEntity> deposit(@RequestParam @NotBlank final String id, @NotNull final DepositRequest deposit) {
+    public Mono<ResponseEntity> deposit(@PathVariable @NotBlank final String id,
+                                        @RequestBody @Valid @NotNull final DepositRequest deposit) {
         return service
                 .deposit(id, deposit.getValue())
                 .map($ -> ResponseEntity.created(URI.create(ACCOUNT_PATH)))
                 .cast(ResponseEntity.class)
-                .onErrorResume(err -> mapError(err, ACCOUNT_PATH, NonPositiveValueException.class));
-    }
-
-    private Mono<ResponseEntity> mapError(final Throwable err, final String path , final Class<? extends RuntimeException> clazz) {
-        return err.getClass() != clazz ? Mono.error(err) : Mono.just(buildBadRequestResponse(path, err.getLocalizedMessage()));
+                .onErrorResume(err -> errorMap(err, ACCOUNT_PATH, NonPositiveValueException.class));
     }
 
 }

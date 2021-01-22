@@ -1,5 +1,6 @@
 package com.github.charlesluxinger.bytebank.controller;
 
+import com.github.charlesluxinger.bytebank.controller.model.exception.ApiExceptionResponse;
 import com.github.charlesluxinger.bytebank.controller.model.request.AccountRequest;
 import com.github.charlesluxinger.bytebank.controller.model.response.AccountResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +10,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -21,8 +25,10 @@ public interface AccountController {
 
     @Operation(summary = "Save an Account", responses = {
             @ApiResponse(responseCode = "201", description = "Created an Account",  content = @Content(
-                    schema =  @Schema(implementation = AccountResponse.class), mediaType = APPLICATION_JSON_VALUE))
+                    schema =  @Schema(implementation = AccountResponse.class), mediaType = APPLICATION_JSON_VALUE)),
+            @ApiResponse(responseCode = "400", description = "Bad Request",
+                    content = @Content(schema = @Schema(implementation = ApiExceptionResponse.class), mediaType = APPLICATION_JSON_VALUE))
     })
-    Mono<ResponseEntity> save(final AccountRequest account);
+    Mono<ResponseEntity> save(@Valid @NotNull final AccountRequest account);
 
 }

@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 import static org.springframework.data.mongodb.core.mapping.FieldType.OBJECT_ID;
@@ -40,7 +40,7 @@ public class AccountDocument {
     @Field
     private String document;
 
-    @PositiveOrZero
+    @NotNull
     @Field(name = BALANCE, targetType = FieldType.DECIMAL128)
     private BigDecimal balance;
 

@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.net.URI;
 
 import static com.github.charlesluxinger.bytebank.controller.AccountControllerImpl.ACCOUNT_PATH;
-import static com.github.charlesluxinger.bytebank.controller.model.exception.ApiExceptionResponse.buildBadRequestResponse;
+import static com.github.charlesluxinger.bytebank.utils.ExceptionUtils.errorMap;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -43,10 +43,6 @@ public class AccountControllerImpl implements AccountController {
                 .map(p -> ResponseEntity.created(URI.create(ACCOUNT_PATH)).body(AccountResponse.of(p)))
                 .cast(ResponseEntity.class)
                 .onErrorResume(err -> errorMap(err, ACCOUNT_PATH, AccountDuplicatedException.class));
-    }
-
-    private Mono<ResponseEntity> errorMap(final Throwable err, final String path , final Class<? extends RuntimeException> clazz) {
-        return err.getClass() != clazz ? Mono.error(err) : Mono.just(buildBadRequestResponse(path, err.getLocalizedMessage()));
     }
 
 }

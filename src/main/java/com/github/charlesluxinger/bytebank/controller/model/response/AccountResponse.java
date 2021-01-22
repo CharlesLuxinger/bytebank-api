@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
  * @author Charles Luxinger
  * @version 1.0.0 20/01/21
  */
+@Schema(name = "Account Response")
 @Builder
 @Getter
 public class AccountResponse {

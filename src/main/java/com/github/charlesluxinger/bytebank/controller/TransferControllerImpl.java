@@ -1,8 +1,8 @@
 package com.github.charlesluxinger.bytebank.controller;
 
 import com.github.charlesluxinger.bytebank.controller.model.request.TransferRequest;
-import com.github.charlesluxinger.bytebank.domain.model.exeception.GreaterThanDepositValueException;
 import com.github.charlesluxinger.bytebank.domain.model.exeception.NonPositiveValueException;
+import com.github.charlesluxinger.bytebank.domain.model.exeception.TransferException;
 import com.github.charlesluxinger.bytebank.domain.service.TransferService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  */
 @Validated
 @RestController
-@RequestMapping(path = ACCOUNT_PATH, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
+@RequestMapping(path = ACCOUNT_PATH, consumes = APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class TransferControllerImpl implements TransferController {
 
@@ -45,7 +45,7 @@ public class TransferControllerImpl implements TransferController {
     }
 
     private Mono<ResponseEntity> errorMap(final Throwable err) {
-        return isEquals(err, GreaterThanDepositValueException.class) || isEquals(err, NonPositiveValueException.class) ?
+        return isEquals(err, TransferException.class) || isEquals(err, NonPositiveValueException.class) ?
                 Mono.just(buildBadRequestResponse(ACCOUNT_PATH, err.getLocalizedMessage())) :
                 Mono.error(err);
     }

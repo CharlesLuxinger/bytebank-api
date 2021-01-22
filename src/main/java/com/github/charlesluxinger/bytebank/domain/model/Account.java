@@ -1,13 +1,13 @@
 package com.github.charlesluxinger.bytebank.domain.model;
 
-import com.github.charlesluxinger.bytebank.domain.model.exeception.NonPositiveValueException;
+import com.github.charlesluxinger.bytebank.domain.model.exeception.InsufficientBalanceAmountException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 import static com.github.charlesluxinger.bytebank.utils.NumberUtils.isNegative;
@@ -30,14 +30,14 @@ public class Account {
     @NotBlank
     private String document;
 
-    @PositiveOrZero
+    @NotNull
     private BigDecimal balance;
 
     public Account balanceDecrement(final BigDecimal value) {
         var subtracted = this.balance.subtract(value);
 
         if (isNegative(subtracted)) {
-            throw new NonPositiveValueException(value);
+            throw new InsufficientBalanceAmountException(value);
         }
 
         return Account

@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
@@ -27,7 +26,6 @@ public class Transfer {
     private String accountTargetId;
 
     @NotNull
-    @Positive
     private BigDecimal value;
 
 }

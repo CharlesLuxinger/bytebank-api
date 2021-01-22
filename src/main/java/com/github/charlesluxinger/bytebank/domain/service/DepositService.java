@@ -2,6 +2,9 @@ package com.github.charlesluxinger.bytebank.domain.service;
 
 import reactor.core.publisher.Mono;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
@@ -10,6 +13,6 @@ import java.math.BigDecimal;
  */
 public interface DepositService {
 
-    Mono<Void> deposit(final String document, final BigDecimal value);
+    Mono<Void> deposit(@NotBlank final String id, @NotNull final BigDecimal value);
 
 }

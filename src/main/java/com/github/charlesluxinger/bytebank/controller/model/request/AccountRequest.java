@@ -15,6 +15,7 @@ import static java.math.BigDecimal.ZERO;
  * @author Charles Luxinger
  * @version 1.0.0 20/01/21
  */
+@Schema(name = "Account Request")
 @Builder
 @Getter
 @AllArgsConstructor
@@ -22,11 +23,11 @@ import static java.math.BigDecimal.ZERO;
 public class AccountRequest {
 
     @NotBlank
-    @Schema(example = "João Manuel")
+    @Schema(example = "João Manuel", required = true)
     private String ownerName;
 
     @NotBlank
-    @Schema(example = "999.999.999-99")
+    @Schema(example = "999.999.999-99", required = true)
     private String document;
 
     public Account toDomain() {

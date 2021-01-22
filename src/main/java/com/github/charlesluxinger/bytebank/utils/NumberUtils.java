@@ -9,15 +9,15 @@ public class NumberUtils {
     private static final BigDecimal TWO_THOUSAND = new BigDecimal(2000);
 
     public static boolean isNegativeOrZero(final BigDecimal value) {
-        return value.compareTo(ZERO) > 0;
+        return value.compareTo(ZERO) <= 0;
     }
 
     public static boolean isNegative(final BigDecimal value) {
-        return value.compareTo(ZERO) >= 0;
+        return value.compareTo(ZERO) < 0;
     }
 
-    public static boolean isLessOrEqualsTwoThousand(BigDecimal value) {
-        return TWO_THOUSAND.compareTo(value) <= 0;
+    public static boolean isGreaterThanTwoThousand(final BigDecimal value) {
+        return value.compareTo(TWO_THOUSAND) > 0;
     }
 
 }

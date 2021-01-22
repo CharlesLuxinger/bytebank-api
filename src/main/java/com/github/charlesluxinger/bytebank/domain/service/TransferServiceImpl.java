@@ -2,6 +2,7 @@ package com.github.charlesluxinger.bytebank.domain.service;
 
 import com.github.charlesluxinger.bytebank.domain.model.Account;
 import com.github.charlesluxinger.bytebank.domain.model.Transfer;
+import com.github.charlesluxinger.bytebank.domain.model.exeception.InsufficientBalanceAmountException;
 import com.github.charlesluxinger.bytebank.domain.model.exeception.NonPositiveValueException;
 import com.github.charlesluxinger.bytebank.domain.model.exeception.TransferException;
 import com.github.charlesluxinger.bytebank.infra.model.AccountDocument;
@@ -75,12 +76,12 @@ public class TransferServiceImpl implements TransferService {
     private Optional<Account> findAccount(final List<Account> accounts, final String document) {
         return accounts
                 .stream()
-                .filter(a -> a.getDocument().equals(document))
+                .filter(a -> a.getId().equals(document))
                 .findAny();
     }
 
     private Throwable errorMap(final Throwable err) {
-        return isEquals(err, NotFoundException.class) || isEquals(err, NonPositiveValueException.class) ?
+        return isEquals(err, NotFoundException.class) || isEquals(err, InsufficientBalanceAmountException.class) ?
                 new TransferException(err.getLocalizedMessage()) :
                 err;
     }

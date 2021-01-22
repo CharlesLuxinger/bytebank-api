@@ -7,13 +7,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
  * @author Charles Luxinger
  * @version 1.0.0 21/01/21
  */
+@Schema(name = "Deposit Request")
 @Builder
 @Getter
 @AllArgsConstructor
@@ -21,8 +21,7 @@ import java.math.BigDecimal;
 public class DepositRequest {
 
     @NotNull
-    @Positive
-    @Schema(example = "999", minimum = "0.1")
+    @Schema(example = "999", minimum = "0.1", required = true)
     private BigDecimal value;
 
 }
