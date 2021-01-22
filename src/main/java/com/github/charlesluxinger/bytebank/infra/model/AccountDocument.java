@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+import static com.github.charlesluxinger.bytebank.infra.model.AccountDocument.*;
 import static org.springframework.data.mongodb.core.mapping.FieldType.OBJECT_ID;
 
 /**
@@ -24,9 +25,10 @@ import static org.springframework.data.mongodb.core.mapping.FieldType.OBJECT_ID;
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Document("account")
+@Document(ACCOUNT_DOCUMENT)
 public class AccountDocument {
 
+    public static final String ACCOUNT_DOCUMENT = "account";
     public static final String BALANCE = "balance";
 
     @MongoId(OBJECT_ID)
@@ -45,8 +47,7 @@ public class AccountDocument {
     private BigDecimal balance;
 
     public static AccountDocument of(final Account account) {
-        return AccountDocument
-                .builder()
+        return builder()
                 .id(account.getId())
                 .ownerName(account.getOwnerName())
                 .document(account.getDocument())
