@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.math.BigDecimal;
 
@@ -18,6 +19,7 @@ import static com.github.charlesluxinger.bytebank.BaseClassTest.accountDocumentB
  * @author Charles Luxinger
  * @version 1.0.0 21/01/21
  */
+@DirtiesContext
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BaseClassControllerTest {
 

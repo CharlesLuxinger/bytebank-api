@@ -88,4 +88,26 @@ class TransferControllerTest extends BaseClassControllerTest {
                 .body("timestamp", notNullValue());
     }
 
+    @Test
+    @DisplayName("should return status 400 when transfer value is negative")
+    void should_return_status_400_when_transfer_value_is_negative() {
+        var targetId = stubAccountId(JOAO_OWNER_NAME, JOAO_DOCUMENT);
+        var sourceId = stubAccountId(MANUEL_OWNER_NAME, MANUEL_DOCUMENT);
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(String.format(BODY ,sourceId, targetId, "-1"))
+            .expect()
+                .statusCode(400)
+                .contentType(ContentType.JSON)
+            .when()
+                .patch()
+            .then()
+                .body("status", is(400))
+                .body("title", equalTo("Bad Request"))
+                .body("detail", equalTo("Isn't positive value: -1."))
+                .body("path", equalTo(ACCOUNT_PATH))
+                .body("timestamp", notNullValue());
+    }
+
 }
