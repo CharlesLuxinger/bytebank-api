@@ -1,7 +1,6 @@
 package com.github.charlesluxinger.bytebank.controller;
 
 
-import com.github.charlesluxinger.bytebank.infra.model.AccountDocument;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
  */
 class AccountControllerTest extends BaseClassControllerTest {
 
-    private final String BODY = "{\"ownerName\":\"" + OWNER_NAME + "\",\"document\":\"" + DOCUMENT + "\"}";
+    private final String BODY = "{\"ownerName\":\"" + MANUEL_OWNER_NAME + "\",\"document\":\"" + MANUEL_DOCUMENT + "\"}";
 
     @Test
     @DisplayName("should return status 201 when create a new user")
@@ -34,16 +33,16 @@ class AccountControllerTest extends BaseClassControllerTest {
                 .post()
             .then()
                 .body("id", is(not(emptyOrNullString())))
-                .body("ownerName", equalTo(OWNER_NAME))
-                .body("document", equalTo(DOCUMENT));
+                .body("ownerName", equalTo(MANUEL_OWNER_NAME))
+                .body("document", equalTo(MANUEL_DOCUMENT));
     }
 
     @Test
     @DisplayName("should return status 400 when save an exists user")
     void should_return_status_400_when_save_an_exists_user() {
         template.indexOps(ACCOUNT_DOCUMENT)
-                .ensureIndex(new Index(DOCUMENT, ASC).unique())
-                .flatMap($ -> repository.save(AccountDocument.builder().ownerName(OWNER_NAME).document(DOCUMENT).build()))
+                .ensureIndex(new Index(MANUEL_DOCUMENT, ASC).unique())
+                .flatMap($ -> repository.save(accountBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT)))
                 .block();
 
         given()
