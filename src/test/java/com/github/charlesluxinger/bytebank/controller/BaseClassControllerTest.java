@@ -25,6 +25,8 @@ class BaseClassControllerTest {
     @LocalServerPort
     private int port;
 
+    protected static final String OWNER_NAME = "João Manuel";
+    protected static final String DOCUMENT = "999.999.999-99";
 
     @BeforeEach
     void setUp() {

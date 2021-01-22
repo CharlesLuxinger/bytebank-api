@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-import static com.github.charlesluxinger.bytebank.infra.model.AccountDocument.*;
+import static com.github.charlesluxinger.bytebank.infra.model.AccountDocument.ACCOUNT_DOCUMENT;
 import static org.springframework.data.mongodb.core.mapping.FieldType.OBJECT_ID;
 
 /**

@@ -19,9 +19,7 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
  */
 class AccountControllerTest extends BaseClassControllerTest {
 
-    private static final String OWNER_NAME = "João Manuel";
-    private static final String DOCUMENT = "999.999.999-99";
-    private String BODY = "{\"ownerName\":\"" + OWNER_NAME + "\",\"document\":\"" + DOCUMENT + "\"}";
+    private final String BODY = "{\"ownerName\":\"" + OWNER_NAME + "\",\"document\":\"" + DOCUMENT + "\"}";
 
     @Test
     @DisplayName("should return status 201 when create a new user")
@@ -45,7 +43,7 @@ class AccountControllerTest extends BaseClassControllerTest {
     void should_return_status_400_when_save_an_exists_user() {
         template.indexOps(ACCOUNT_DOCUMENT)
                 .ensureIndex(new Index(DOCUMENT, ASC).unique())
-                .flatMap($ ->   repository.save(AccountDocument.builder().ownerName(OWNER_NAME).document(DOCUMENT).build()))
+                .flatMap($ -> repository.save(AccountDocument.builder().ownerName(OWNER_NAME).document(DOCUMENT).build()))
                 .block();
 
         given()

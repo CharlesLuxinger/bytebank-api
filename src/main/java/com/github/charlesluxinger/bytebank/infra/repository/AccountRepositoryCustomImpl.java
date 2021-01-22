@@ -3,6 +3,7 @@ package com.github.charlesluxinger.bytebank.infra.repository;
 import com.github.charlesluxinger.bytebank.infra.model.AccountDocument;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.webjars.NotFoundException;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;

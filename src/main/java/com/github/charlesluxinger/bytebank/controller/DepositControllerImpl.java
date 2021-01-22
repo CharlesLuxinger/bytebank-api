@@ -1,6 +1,7 @@
 package com.github.charlesluxinger.bytebank.controller;
 
 import com.github.charlesluxinger.bytebank.controller.model.request.DepositRequest;
+import com.github.charlesluxinger.bytebank.domain.model.exeception.GreaterThanDepositValueException;
 import com.github.charlesluxinger.bytebank.domain.model.exeception.NonPositiveValueException;
 import com.github.charlesluxinger.bytebank.domain.service.DepositService;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,9 @@ import javax.validation.constraints.NotNull;
 import java.net.URI;
 
 import static com.github.charlesluxinger.bytebank.controller.AccountControllerImpl.ACCOUNT_PATH;
-import static com.github.charlesluxinger.bytebank.utils.ExceptionUtils.errorMap;
+import static com.github.charlesluxinger.bytebank.controller.model.exception.ApiExceptionResponse.buildBadRequestResponse;
+import static com.github.charlesluxinger.bytebank.utils.ExceptionUtils.isEquals;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -31,6 +34,7 @@ public class DepositControllerImpl implements DepositController {
     private final DepositService service;
 
     @Override
+    @ResponseStatus(CREATED)
     @PostMapping(value = "/{id}")
     public Mono<ResponseEntity> deposit(@PathVariable @NotBlank final String id,
                                         @RequestBody @Valid @NotNull final DepositRequest deposit) {
@@ -38,7 +42,13 @@ public class DepositControllerImpl implements DepositController {
                 .deposit(id, deposit.getValue())
                 .map($ -> ResponseEntity.created(URI.create(ACCOUNT_PATH)))
                 .cast(ResponseEntity.class)
-                .onErrorResume(err -> errorMap(err, ACCOUNT_PATH, NonPositiveValueException.class));
+                .onErrorResume(this::errorMap);
+    }
+
+    private Mono<ResponseEntity> errorMap(final Throwable err) {
+        return isEquals(err, GreaterThanDepositValueException.class) || isEquals(err, NonPositiveValueException.class) ?
+                Mono.just(buildBadRequestResponse(ACCOUNT_PATH, err.getLocalizedMessage())) :
+                Mono.error(err);
     }
 
 }

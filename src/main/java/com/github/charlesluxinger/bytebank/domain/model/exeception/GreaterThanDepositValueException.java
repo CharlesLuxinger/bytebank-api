@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  */
 public class GreaterThanDepositValueException extends IllegalStateException {
 
-    public static final String EXISTS_ERROR_MESSAGE = "The value: %s is greater than R$ 2.000,00.";
+    public static final String EXISTS_ERROR_MESSAGE = "The value: %s is greater than 2000.0.";
 
     public GreaterThanDepositValueException(final BigDecimal value) {
         super(String.format(EXISTS_ERROR_MESSAGE, value.toString()));
