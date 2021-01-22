@@ -5,6 +5,7 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.github.charlesluxinger.bytebank.BaseClassTest.*;
 import static com.github.charlesluxinger.bytebank.controller.AccountControllerImpl.ACCOUNT_PATH;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -21,7 +22,7 @@ class DepositControllerTest extends BaseClassControllerTest {
     @DisplayName("should return status 201 when deposit with a valid value")
     void should_return_status_201_when_deposit_with_a_valid_value() {
         var id = repository
-                .save(accountBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT))
+                .save(accountDocumentBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT))
                 .map(AccountDocument::getId)
                 .block();
 
@@ -41,7 +42,7 @@ class DepositControllerTest extends BaseClassControllerTest {
     @DisplayName("should return status 400 when deposit value is greater than two thousand")
     void should_return_status_400_when_deposit_value_is_greater_than_two_thousand() {
         var id = repository
-                .save(accountBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT))
+                .save(accountDocumentBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT))
                 .map(AccountDocument::getId)
                 .block();
 
@@ -66,7 +67,7 @@ class DepositControllerTest extends BaseClassControllerTest {
     @DisplayName("should return status 400 when deposit value is zero")
     void should_return_status_400_when_deposit_value_is_zero() {
         var id = repository
-                .save(accountBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT))
+                .save(accountDocumentBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT))
                 .map(AccountDocument::getId)
                 .block();
 
@@ -91,7 +92,7 @@ class DepositControllerTest extends BaseClassControllerTest {
     @DisplayName("should return status 400 when deposit value is negative")
     void should_return_status_400_when_deposit_value_is_negative() {
         var id = repository
-                .save(accountBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT))
+                .save(accountDocumentBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT))
                 .map(AccountDocument::getId)
                 .block();
 

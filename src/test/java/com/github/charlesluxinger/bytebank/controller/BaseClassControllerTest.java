@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 
 import java.math.BigDecimal;
 
+import static com.github.charlesluxinger.bytebank.BaseClassTest.accountDocumentBuilder;
+
 /**
  * @author Charles Luxinger
  * @version 1.0.0 21/01/21
@@ -28,12 +30,6 @@ class BaseClassControllerTest {
     @LocalServerPort
     private int port;
 
-    protected static final String JOAO_OWNER_NAME = "João Manuel";
-    protected static final String JOAO_DOCUMENT = "999.999.999-98";
-
-    protected static final String MANUEL_OWNER_NAME = "Manuel João";
-    protected static final String MANUEL_DOCUMENT = "999.999.999-99";
-
     @BeforeEach
     void setUp() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
@@ -43,16 +39,12 @@ class BaseClassControllerTest {
         repository.deleteAll().block();
     }
 
-    protected String stubAccount(String name, String document) {
+    protected String stubAccountId(String name, String document) {
         return repository
-                .save(accountBuilder(name, document))
+                .save(accountDocumentBuilder(name, document))
                 .map(AccountDocument::getId)
                 .flatMap(id -> repository.deposit(id, BigDecimal.TEN).thenReturn(id))
                 .block();
-    }
-
-    protected AccountDocument accountBuilder(String name, String document) {
-        return AccountDocument.builder().ownerName(name).document(document).build();
     }
 
 }

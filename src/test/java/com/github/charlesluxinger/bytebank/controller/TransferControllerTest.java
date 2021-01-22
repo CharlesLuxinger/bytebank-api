@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static com.github.charlesluxinger.bytebank.BaseClassTest.*;
 import static com.github.charlesluxinger.bytebank.controller.AccountControllerImpl.ACCOUNT_PATH;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -22,8 +23,8 @@ class TransferControllerTest extends BaseClassControllerTest {
     @Test
     @DisplayName("should return status 200 when transfer with a valid value")
     void should_return_status_200_when_transfer_with_a_valid_value() {
-        var targetId = stubAccount(JOAO_OWNER_NAME, JOAO_DOCUMENT);
-        var sourceId = stubAccount(MANUEL_OWNER_NAME, MANUEL_DOCUMENT);
+        var targetId = stubAccountId(JOAO_OWNER_NAME, JOAO_DOCUMENT);
+        var sourceId = stubAccountId(MANUEL_OWNER_NAME, MANUEL_DOCUMENT);
 
         given()
                 .contentType(ContentType.JSON)
@@ -45,8 +46,8 @@ class TransferControllerTest extends BaseClassControllerTest {
     @Test
     @DisplayName("should return status 200 when source balance account will be zero after transfer")
     void should_return_status_200_when_source_balance_account_will_be_zero_after_transfer() {
-        var targetId = stubAccount(JOAO_OWNER_NAME, JOAO_DOCUMENT);
-        var sourceId = stubAccount(MANUEL_OWNER_NAME, MANUEL_DOCUMENT);
+        var targetId = stubAccountId(JOAO_OWNER_NAME, JOAO_DOCUMENT);
+        var sourceId = stubAccountId(MANUEL_OWNER_NAME, MANUEL_DOCUMENT);
 
         given()
                 .contentType(ContentType.JSON)
@@ -68,8 +69,8 @@ class TransferControllerTest extends BaseClassControllerTest {
     @Test
     @DisplayName("should return status 400 when source balance account will be less zero after transfer")
     void should_return_status_400_when_source_balance_account_will_be_less_zero_after_transfer() {
-        var targetId = stubAccount(JOAO_OWNER_NAME, JOAO_DOCUMENT);
-        var sourceId = stubAccount(MANUEL_OWNER_NAME, MANUEL_DOCUMENT);
+        var targetId = stubAccountId(JOAO_OWNER_NAME, JOAO_DOCUMENT);
+        var sourceId = stubAccountId(MANUEL_OWNER_NAME, MANUEL_DOCUMENT);
 
         given()
                 .contentType(ContentType.JSON)

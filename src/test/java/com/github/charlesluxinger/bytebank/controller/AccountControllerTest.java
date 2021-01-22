@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.mongodb.core.index.Index;
 
+import static com.github.charlesluxinger.bytebank.BaseClassTest.*;
 import static com.github.charlesluxinger.bytebank.controller.AccountControllerImpl.ACCOUNT_PATH;
 import static com.github.charlesluxinger.bytebank.infra.model.AccountDocument.ACCOUNT_DOCUMENT;
 import static io.restassured.RestAssured.given;
@@ -42,7 +43,7 @@ class AccountControllerTest extends BaseClassControllerTest {
     void should_return_status_400_when_save_an_exists_user() {
         template.indexOps(ACCOUNT_DOCUMENT)
                 .ensureIndex(new Index(MANUEL_DOCUMENT, ASC).unique())
-                .flatMap($ -> repository.save(accountBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT)))
+                .flatMap($ -> repository.save(accountDocumentBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT)))
                 .block();
 
         given()
