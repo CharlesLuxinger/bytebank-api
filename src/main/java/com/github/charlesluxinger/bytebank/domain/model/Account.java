@@ -1,10 +1,7 @@
 package com.github.charlesluxinger.bytebank.domain.model;
 
 import com.github.charlesluxinger.bytebank.domain.model.exeception.InsufficientBalanceAmountException;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,6 +17,7 @@ import static com.github.charlesluxinger.bytebank.utils.NumberUtils.isNegative;
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class Account {
 
     private String id;
