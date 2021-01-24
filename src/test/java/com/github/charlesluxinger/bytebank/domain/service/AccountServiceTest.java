@@ -45,6 +45,17 @@ class AccountServiceTest {
     }
 
     @Test
+    @DisplayName("should return a mono error when error throed")
+    void should_a_mono_error_when_error_throed() {
+        when(repository.insert((AccountDocument) Mockito.any())).thenReturn(Mono.error(new RuntimeException()));
+
+        StepVerifier
+                .create(service.insertIfNotExists(accountDocumentBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT).toDomain()))
+                .expectError(RuntimeException.class)
+                .verify();
+    }
+
+    @Test
     @DisplayName("should insert when not exists")
     void should_insert_when_not_exists() {
         var document = accountDocumentBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT);
