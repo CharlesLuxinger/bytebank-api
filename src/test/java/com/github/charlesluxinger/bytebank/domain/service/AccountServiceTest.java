@@ -3,6 +3,7 @@ package com.github.charlesluxinger.bytebank.domain.service;
 import com.github.charlesluxinger.bytebank.domain.model.exeception.AccountDuplicatedException;
 import com.github.charlesluxinger.bytebank.infra.model.AccountDocument;
 import com.github.charlesluxinger.bytebank.infra.repository.AccountRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -33,16 +34,18 @@ class AccountServiceTest {
     private AccountRepository repository;
 
     @Test
+    @DisplayName("should throw exceptions when insert an exists document")
     void should_throw_exceptions_when_insert_an_exists_document() {
         when(repository.insert((AccountDocument) Mockito.any())).thenReturn(Mono.error(new DuplicateKeyException("")));
 
         StepVerifier
                 .create(service.insertIfNotExists(accountDocumentBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT).toDomain()))
-                .expectError(AccountDuplicatedException.class);
-
+                .expectError(AccountDuplicatedException.class)
+                .verify();
     }
 
     @Test
+    @DisplayName("should insert when not exists")
     void should_insert_when_not_exists() {
         var document = accountDocumentBuilder(MANUEL_OWNER_NAME, MANUEL_DOCUMENT);
 
@@ -52,7 +55,8 @@ class AccountServiceTest {
 
         StepVerifier
                 .create(mono)
-                .expectNext(document.toDomain());
+                .expectNext(document.toDomain())
+                .verifyComplete();
     }
 
 
