@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+    api.bytebank.dev:
+        container_name: api.bytebank.dev
+        image: charlesluxinger/bytebank-api
+        depends_on:
+            - mongodb.bytebank.api
+        env_file:
+            - env-docker
+        networks:
+            - bubble
+        ports:
+        - 9000:9000
+
+    mongodb.bytebank.api:
+        container_name: mongodb.bytebank.api
+        image: mongo:4.4.3
+        networks:
+            - bubble
+        ports:
+            - 27017:27017
+        volumes:
+            - mongodb:/data/db/
+
+volumes:
+    mongodb:
+
+networks:
+    bubble:

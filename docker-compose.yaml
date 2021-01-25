@@ -1,15 +1,19 @@
 version: '3.7'
 
 services:
-#  api.bytebank.dev:
-#    container_name: api.bytebank.dev
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    env_file:
-#      - .env
-#    ports:
-#      - 9000:9000
+  api.bytebank.dev:
+    container_name: api.bytebank.dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mongodb.bytebank.api
+    env_file:
+      - .env
+    networks:
+      - bubble
+    ports:
+      - 9000:9000
 
   mongodb.bytebank.api:
     container_name: mongodb.bytebank.api

@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class TransferControllerTest extends BaseClassControllerTest {
 
-    private final String BODY = "{\"accountSourceId\":\"%s\",\"accountTargetId\":\"%s\",\"value\":%s}";
+    private final String BODY = "{\"sourceAccountId\":\"%s\",\"targetAccountId\":\"%s\",\"value\":%s}";
 
     @Test
     @DisplayName("should return status 200 when transfer with a valid value")
@@ -106,6 +106,27 @@ class TransferControllerTest extends BaseClassControllerTest {
                 .body("status", is(400))
                 .body("title", equalTo("Bad Request"))
                 .body("detail", equalTo("Isn't positive value: -1."))
+                .body("path", equalTo(ACCOUNT_PATH))
+                .body("timestamp", notNullValue());
+    }
+
+    @Test
+    @DisplayName("should return status 400 when source id & target id is equals")
+    void should_return_status_400_when_source_id_and_target_id_is_equals() {
+        var id = stubAccountId(JOAO_OWNER_NAME, JOAO_DOCUMENT);
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(String.format(BODY ,id, id, "1"))
+            .expect()
+                .statusCode(400)
+                .contentType(ContentType.JSON)
+            .when()
+                .patch()
+            .then()
+                .body("status", is(400))
+                .body("title", equalTo("Bad Request"))
+                .body("detail", equalTo("Target Id & Source Id is equals."))
                 .body("path", equalTo(ACCOUNT_PATH))
                 .body("timestamp", notNullValue());
     }

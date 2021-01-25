@@ -10,11 +10,11 @@ class TransferRequestTest {
 
     @Test
     void should_return_an_transfer_domain() {
-        var transferRequest = TransferRequest.builder().accountSourceId("123").accountTargetId("321").value(BigDecimal.TEN).build();
+        var transferRequest = TransferRequest.builder().sourceAccountId("123").targetAccountId("321").value(BigDecimal.TEN).build();
         var transferDomain = transferRequest.toDomain();
 
-        assertEquals(transferRequest.getAccountSourceId(), transferDomain.getAccountSourceId());
-        assertEquals(transferRequest.getAccountTargetId(), transferDomain.getAccountTargetId());
+        assertEquals(transferRequest.getSourceAccountId(), transferDomain.getAccountSourceId());
+        assertEquals(transferRequest.getTargetAccountId(), transferDomain.getAccountTargetId());
         assertEquals(transferRequest.getValue(), transferDomain.getValue());
     }
 

@@ -36,6 +36,10 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public Mono<Void> transfer(@Valid @NotNull final Transfer transfer) {
+        if (transfer.getAccountTargetId().equals(transfer.getAccountSourceId())) {
+            return Mono.error(new TransferException("Target Id & Source Id is equals."));
+        }
+
         if (isNegativeOrZero(transfer.getValue())) {
             return Mono.error(new NonPositiveValueException(transfer.getValue()));
         }

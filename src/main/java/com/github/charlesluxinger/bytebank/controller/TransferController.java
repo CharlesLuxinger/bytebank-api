@@ -23,7 +23,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public interface TransferController {
 
     @Operation(summary = "Transfer between Accounts", responses = {
-            @ApiResponse(responseCode = "201", description = "Transferred successfully"),
+            @ApiResponse(responseCode = "200", description = "Transferred successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request",
                     content = @Content(schema = @Schema(implementation = ApiExceptionResponse.class), mediaType = APPLICATION_JSON_VALUE))
     })
